@@ -26,13 +26,17 @@ def main ():
 	                                                  batch_size = len ( testingDataset ) )
 
 	optimizer = torch.optim.SGD ( net.parameters (), lr = 1e-02 )
+	scheduler = torch.optim.lr_scheduler.StepLR ( optimizer = optimizer, gamma = 0.1,
+	                                              step_size = 4 )
 
 	lossFunction = nn.CrossEntropyLoss ()
 
 	print ( "Training!" )
 	net.train ()
-	for epoch in range ( 0, 10 ):
+	for epoch in range ( 0, 25 ):
+		print ( "Learning rate is {}".format ( scheduler.get_lr () ) )
 		print ( "Epoch {}".format ( epoch ) )
+
 		for batchNum, (data, target) in enumerate ( trainingDataLoader ):
 
 			optimizer.zero_grad ()
@@ -47,13 +51,13 @@ def main ():
 			if batchNum % 50 == 0:
 				print ( "Training loss at epoch {} batch number {}: {}".format ( epoch, batchNum,
 				                                                                 loss ) )
+		scheduler.step ( epoch = epoch )
 
 	print ( "Testing!" )
 	net.eval ()
 	correct = 0
 	for _, (data, target) in enumerate ( testingDataLoader ):
 		output = net ( data )
-		loss = lossFunction ( output, target )
 
 		pred = output.max ( 1, keepdim = True )[1]  # get the index of the max log-probability
 		correct += pred.eq ( target.view_as ( pred ) ).sum ().item ()
