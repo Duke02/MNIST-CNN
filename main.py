@@ -11,9 +11,9 @@ import network
 def main ():
 	net = network.Network ()
 
-	transformations = transforms.Compose ([
-		transforms.ToTensor()
-	])
+	transformations = transforms.Compose ( [
+		transforms.ToTensor ()
+	] )
 	trainingDataset = datasets.MNIST ( root = 'data/train', transform = transformations,
 	                                   download = True )
 	testingDataset = datasets.MNIST ( root = 'data/test', transform = transformations,
@@ -58,6 +58,7 @@ def main ():
 		pred = output.max ( 1, keepdim = True )[1]  # get the index of the max log-probability
 		correct += pred.eq ( target.view_as ( pred ) ).sum ().item ()
 	print ( "Number of correctness is {}".format ( correct ) )
+	print ( "Percentage of correctness is {}%".format ( correct / len ( testingDataset ) * 100. ) )
 
 
 if __name__ == '__main__':
