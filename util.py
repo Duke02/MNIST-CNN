@@ -1,6 +1,6 @@
 from datetime import datetime
 
-shouldLog = True
+shouldLog = False
 
 
 def log ( message: str ):
