@@ -34,6 +34,7 @@ def main ():
 	testingResults = []
 
 	for i in range ( 5 ):
+		print ( "Round {}".format ( i ) )
 		print ( "Training!" )
 		net.train ()
 		for epoch in range ( 0, 13 ):
