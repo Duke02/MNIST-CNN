@@ -37,8 +37,7 @@ class Network ( nn.Module ):
 			nn.ReLU ()
 		)
 		self.fc8 = nn.Sequential (
-			nn.Linear ( in_features = 32, out_features = 10 ),
-			nn.ReLU ()
+			nn.Linear ( in_features = 32, out_features = 10 )
 		)
 
 	def forward ( self, x ):
