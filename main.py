@@ -13,12 +13,17 @@ def main ():
 
 	net = network.Network ()
 
-	transformations = transforms.Compose ( [
+	transformationsAddMore = transforms.Compose ( [
+		transforms.RandomRotation ( degrees = 15 ),
 		transforms.ToTensor ()
 	] )
-	trainingDataset = datasets.MNIST ( root = 'data/train', transform = transformations,
-	                                   download = True )
-	testingDataset = datasets.MNIST ( root = 'data/test', transform = transformations,
+
+	trainingDataset = torch.utils.data.ConcatDataset ( [
+		datasets.MNIST ( root = 'data/train', transform = transformationsAddMore, download = True ),
+		datasets.MNIST ( root = 'data/train', transform = transformationsAddMore ),
+		datasets.MNIST ( root = 'data/train', transform = transformationsAddMore )
+	] )
+	testingDataset = datasets.MNIST ( root = 'data/test', transform = transformationsAddMore,
 	                                  train = False, download = True )
 
 	trainingDataLoader = torch.utils.data.DataLoader ( trainingDataset,
