@@ -33,7 +33,7 @@ def main ():
 
 	print ( "Training!" )
 	net.train ()
-	for epoch in range ( 0, 25 ):
+	for epoch in range ( 0, 13 ):
 		print ( "Learning rate is {}".format ( scheduler.get_lr () ) )
 		print ( "Epoch {}".format ( epoch ) )
 
