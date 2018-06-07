@@ -20,7 +20,7 @@ def main ():
 	                                  train = False, download = True )
 
 	trainingDataLoader = torch.utils.data.DataLoader ( trainingDataset,
-	                                                   batch_size = 32,
+	                                                   batch_size = 16,
 	                                                   shuffle = True )
 	testingDataLoader = torch.utils.data.DataLoader ( testingDataset,
 	                                                  batch_size = len ( testingDataset ) )
