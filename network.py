@@ -34,7 +34,7 @@ class Network ( nn.Module ):
 		self.fc7 = nn.Sequential (
 			nn.Linear ( in_features = 3 * 3, out_features = 32 ),
 			nn.Dropout (),
-			nn.ReLU ()
+			nn.ELU()
 		)
 		self.fc8 = nn.Sequential (
 			nn.Linear ( in_features = 32, out_features = 10 )

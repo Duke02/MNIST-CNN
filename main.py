@@ -9,6 +9,8 @@ import network
 
 
 def main ():
+	nameOfTest = input ( "What is the name of the test? " )
+
 	net = network.Network ()
 
 	transformations = transforms.Compose ( [
@@ -29,36 +31,48 @@ def main ():
 
 	lossFunction = nn.CrossEntropyLoss ()
 
-	print ( "Training!" )
-	net.train ()
-	for epoch in range ( 0, 13 ):
-		print ( "Epoch {}".format ( epoch ) )
+	testingResults = []
 
-		for batchNum, (data, target) in enumerate ( trainingDataLoader ):
+	for i in range ( 5 ):
+		print ( "Training!" )
+		net.train ()
+		for epoch in range ( 0, 13 ):
+			print ( "Epoch {}".format ( epoch ) )
 
-			optimizer.zero_grad ()
+			for batchNum, (data, target) in enumerate ( trainingDataLoader ):
 
+				optimizer.zero_grad ()
+
+				output = net ( data )
+
+				loss = lossFunction ( output, target )
+				loss.backward ()
+
+				optimizer.step ()
+
+				if batchNum % 50 == 0:
+					print (
+							"Training loss at epoch {} batch number {}: {}".format ( epoch,
+							                                                         batchNum,
+							                                                         loss ) )
+
+		print ( "Testing!" )
+		net.eval ()
+		correct = 0
+		for _, (data, target) in enumerate ( testingDataLoader ):
 			output = net ( data )
 
-			loss = lossFunction ( output, target )
-			loss.backward ()
-
-			optimizer.step ()
-
-			if batchNum % 50 == 0:
-				print ( "Training loss at epoch {} batch number {}: {}".format ( epoch, batchNum,
-				                                                                 loss ) )
-
-	print ( "Testing!" )
-	net.eval ()
-	correct = 0
-	for _, (data, target) in enumerate ( testingDataLoader ):
-		output = net ( data )
-
-		pred = output.max ( 1, keepdim = True )[1]  # get the index of the max log-probability
-		correct += pred.eq ( target.view_as ( pred ) ).sum ().item ()
-	print ( "Number of correctness is {}".format ( correct ) )
-	print ( "Percentage of correctness is {}%".format ( correct / len ( testingDataset ) * 100. ) )
+			pred = output.max ( 1, keepdim = True )[1]  # get the index of the max log-probability
+			correct += pred.eq ( target.view_as ( pred ) ).sum ().item ()
+		print ( "Number of correctness is {}".format ( correct ) )
+		print (
+				"Percentage of correctness is {}%".format (
+						correct / len ( testingDataset ) * 100. ) )
+		testingResults.append ( float ( correct ) / float ( len ( testingDataset ) ) )
+	resultsFile = open ( "results.txt", mode = "a+" )
+	resultsFile.write ( "\n" + nameOfTest + ": " + str (
+			float ( sum ( testingResults ) ) / float ( len ( testingResults ) ) * 100 ) + "%" )
+	resultsFile.close ()
 
 
 if __name__ == '__main__':
