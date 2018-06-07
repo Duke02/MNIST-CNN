@@ -23,10 +23,6 @@ class Network ( nn.Module ):
 			nn.Conv2d ( in_channels = 16, out_channels = 4, kernel_size = 3 ),
 			nn.BatchNorm2d ( num_features = 4 )
 		)
-		self.pl5 = nn.Sequential (
-			nn.MaxPool2d ( kernel_size = 5, stride = 1, padding = 2 ),
-			nn.BatchNorm2d ( num_features = 4 )
-		)
 		self.conv5 = nn.Sequential (
 			nn.Conv2d ( in_channels = 4, out_channels = 1, kernel_size = 1 ),
 			nn.BatchNorm2d ( num_features = 1 )
@@ -55,8 +51,6 @@ class Network ( nn.Module ):
 		log ( "Went through pl3" )
 		x = self.conv4 ( x )
 		log ( "Went through conv4" )
-		x = self.pl5 ( x )
-		log ( str ( x.size () ) )
 		log ( "Went through pl5" )
 		x = self.conv5 ( x )
 		log ( "Went through conv5" )
