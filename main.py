@@ -26,15 +26,12 @@ def main ():
 	                                                  batch_size = len ( testingDataset ) )
 
 	optimizer = torch.optim.SGD ( net.parameters (), lr = 1e-02 )
-	scheduler = torch.optim.lr_scheduler.StepLR ( optimizer = optimizer, gamma = 0.1,
-	                                              step_size = 4 )
 
 	lossFunction = nn.CrossEntropyLoss ()
 
 	print ( "Training!" )
 	net.train ()
 	for epoch in range ( 0, 13 ):
-		print ( "Learning rate is {}".format ( scheduler.get_lr () ) )
 		print ( "Epoch {}".format ( epoch ) )
 
 		for batchNum, (data, target) in enumerate ( trainingDataLoader ):
@@ -51,7 +48,6 @@ def main ():
 			if batchNum % 50 == 0:
 				print ( "Training loss at epoch {} batch number {}: {}".format ( epoch, batchNum,
 				                                                                 loss ) )
-		scheduler.step ( epoch = epoch )
 
 	print ( "Testing!" )
 	net.eval ()
