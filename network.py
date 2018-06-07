@@ -23,6 +23,10 @@ class Network ( nn.Module ):
 			nn.Conv2d ( in_channels = 16, out_channels = 4, kernel_size = 3 ),
 			nn.BatchNorm2d ( num_features = 4 )
 		)
+		self.pl5 = nn.Sequential (
+			nn.MaxPool2d ( kernel_size = 5, stride = 1, padding = 2 ),
+			nn.BatchNorm2d ( num_features = 4 )
+		)
 		self.conv5 = nn.Sequential (
 			nn.Conv2d ( in_channels = 4, out_channels = 1, kernel_size = 1 ),
 			nn.BatchNorm2d ( num_features = 1 )
@@ -32,7 +36,12 @@ class Network ( nn.Module ):
 			nn.BatchNorm2d ( num_features = 1 )
 		)
 		self.fc7 = nn.Sequential (
-			nn.Linear ( in_features = 3 * 3, out_features = 10 ),
+			nn.Linear ( in_features = 3 * 3, out_features = 32 ),
+			nn.Dropout (),
+			nn.ReLU ()
+		)
+		self.fc8 = nn.Sequential (
+			nn.Linear ( in_features = 32, out_features = 10 ),
 			nn.ReLU ()
 		)
 
@@ -46,6 +55,9 @@ class Network ( nn.Module ):
 		log ( "Went through pl3" )
 		x = self.conv4 ( x )
 		log ( "Went through conv4" )
+		x = self.pl5 ( x )
+		log ( str ( x.size () ) )
+		log ( "Went through pl5" )
 		x = self.conv5 ( x )
 		log ( "Went through conv5" )
 		x = self.pl6 ( x )
@@ -54,4 +66,4 @@ class Network ( nn.Module ):
 		x = self.fc7 ( x )
 		log ( "Went through fc7" )
 		log ( "Returning output in a bit" )
-		return x
+		return self.fc8 ( x )
