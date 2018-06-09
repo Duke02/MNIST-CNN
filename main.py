@@ -11,8 +11,6 @@ import network
 def main ():
 	nameOfTest = input ( "What is the name of the test? " )
 
-	net = network.Network ()
-
 	transformationsAddMore = transforms.Compose ( [
 		transforms.RandomRotation ( degrees = 15 ),
 		transforms.ToTensor ()
@@ -32,14 +30,17 @@ def main ():
 	testingDataLoader = torch.utils.data.DataLoader ( testingDataset,
 	                                                  batch_size = len ( testingDataset ) )
 
-	optimizer = torch.optim.SGD ( net.parameters (), lr = 1e-02 )
-
-	lossFunction = nn.CrossEntropyLoss ()
-
 	testingResults = []
 
 	for i in range ( 5 ):
-		print ( "Round {}".format ( i ) )
+
+		net = network.Network ()
+
+		optimizer = torch.optim.SGD ( net.parameters (), lr = 1e-02 )
+
+		lossFunction = nn.CrossEntropyLoss ()
+
+		print ( "Round {}".format ( i + 1 ) )
 		print ( "Training!" )
 		net.train ()
 		for epoch in range ( 0, 13 ):
