@@ -43,7 +43,7 @@ def main ():
 		print ( "Round {}".format ( i + 1 ) )
 		print ( "Training!" )
 		net.train ()
-		for epoch in range ( 0, 13 ):
+		for epoch in range ( 0, 10 ):
 			print ( "Epoch {}".format ( epoch ) )
 
 			for batchNum, (data, target) in enumerate ( trainingDataLoader ):
